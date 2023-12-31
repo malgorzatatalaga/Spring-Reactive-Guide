@@ -6,11 +6,13 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        Flux<Integer> justFlux = Flux.just(1, 2, 3, 4); //static stream of four elements
+        ////static stream of elements
+        Flux<Integer> justFlux = Flux.just(1, 2, 3, 4);
         Mono<Integer> justMono = Mono.just(1);
 
         List<Integer> elements = new ArrayList<>();
@@ -19,6 +21,7 @@ public class Main {
                 .subscribe(elements::add);
         //In a reactive approach, events are pushed to the subscribers as they come in.
 
+        //Backpressure
         Flux.just(1, 2, 3, 4)
                 .log()
                 .subscribe(new Subscriber<>() {
@@ -42,5 +45,14 @@ public class Main {
                     @Override
                     public void onComplete() {}
                 });
+
+        //Mapping Data in a Stream
+        Flux.just(1, 2, 3, 4)
+                .log()
+                .map(i -> i * 2)
+                .subscribe(elements::add);
+        System.out.println(elements);
+
+
     }
 }
