@@ -6,12 +6,11 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class Main {
+public class ColdStreams {
     public static void main(String[] args) {
-        ////static stream of elements
+        //static stream of elements
         Flux<Integer> justFlux = Flux.just(1, 2, 3, 4);
         Mono<Integer> justMono = Mono.just(1);
 
@@ -27,11 +26,13 @@ public class Main {
                 .subscribe(new Subscriber<>() {
                     private Subscription s;
                     int onNextAmount;
+
                     @Override
                     public void onSubscribe(Subscription s) {
                         this.s = s;
                         s.request(2);
                     }
+
                     @Override
                     public void onNext(Integer integer) {
                         elements.add(integer);
@@ -40,10 +41,14 @@ public class Main {
                             s.request(2);
                         }
                     }
+
                     @Override
-                    public void onError(Throwable t) {}
+                    public void onError(Throwable t) {
+                    }
+
                     @Override
-                    public void onComplete() {}
+                    public void onComplete() {
+                    }
                 });
 
         //Mapping Data in a Stream
@@ -53,6 +58,15 @@ public class Main {
                 .subscribe(elements::add);
         System.out.println(elements);
 
+        //Combining Two Streams
+        List<String> strings = new ArrayList<>();
+        Flux.just(1, 2, 3, 4)
+                .log()
+                .map(i -> i * 2)
+                .zipWith(Flux.range(0, Integer.MAX_VALUE),
+                        (one, two) -> String.format("First Flux: %d, Second Flux: %d",
+        one, two)).subscribe(strings::add);
+        System.out.println(strings);
 
     }
 }
