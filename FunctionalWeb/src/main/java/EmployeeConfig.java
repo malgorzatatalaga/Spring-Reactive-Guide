@@ -10,8 +10,8 @@ public class EmployeeConfig {
     EmployeeRepository employeeRepository() {
         return new EmployeeRepository();
     }
-    @Bean
-    RouterFunction<ServerResponse> getAllEmployeesRoute() {
-        return route(GET("/employees"), req -> ok().body(employeeRepository().findAllEmployees(), Employee.class));
-    }
+//    @Bean
+//    RouterFunction<ServerResponse> getAllEmployeesRoute() {
+//        return route(GET("/employees"), req -> ok().body(employeeRepository().findAllEmployees(), Employee.class));
+//    }
 }
