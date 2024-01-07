@@ -1,4 +1,4 @@
-package main.java;
+package reactor.project;
 
 import reactor.core.publisher.ConnectableFlux;
 import reactor.core.publisher.Flux;
